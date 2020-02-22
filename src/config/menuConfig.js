@@ -6,7 +6,8 @@ const routes = [
     {
         path: '/',
         exact: true,
-        component: Home,
+        // component: Home,
+        component: Editor,
         title: "首页"
     },
     {

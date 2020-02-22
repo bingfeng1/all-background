@@ -41,5 +41,6 @@
     "babel-plugin-import": "^1.13.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0"
-  }
+  },
+  "proxy":"http://localhost:9000/api/all-background"
 }

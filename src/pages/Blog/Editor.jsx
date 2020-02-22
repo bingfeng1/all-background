@@ -1,11 +1,21 @@
 import React from 'react'
+import { Card } from 'antd'
 
-const Editor = ()=>{
+const Editor = () => {
 
     return (
-        <div>
-            Editor
-        </div>
+        <Card
+            title="个人信息"
+            bordered={false}>
+            <div className="flex-center">
+                <div>
+                    
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </Card>
     )
 }
 

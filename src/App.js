@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect } from 'react-router-dom'
 import { Layout, Menu } from 'antd';
 import MenuList from './components/App/Menu'
 import Routes from './routers'
+import AppHeader from './components/App/Header';
 
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -27,8 +28,10 @@ function App() {
           </Menu>
         </Sider>
         <Layout>
-          <Header>Header</Header>
-          <Content>
+          <Header style={{ background: '#fff', padding: 0 }}>
+            <AppHeader></AppHeader>
+          </Header>
+          <Content style={{padding:"20px"}}>
             {
               Routes
             }
