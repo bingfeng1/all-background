@@ -7,16 +7,20 @@ const Routes = (routes) => {
     // 配置路由
     return (
         routes.map(item => {
-            if (item.children) {
-                return Routes(item.children)
+            if (!item.isNet) {
+                if (item.children) {
+                    return Routes(item.children)
+                }
+                return (
+                    <Route
+                        exact={item.exact}
+                        key={item.path}
+                        path={item.path}
+                        component={item.component} />
+                )
+            } else {
+                return null
             }
-            return (
-                <Route
-                    exact={item.exact}
-                    key={item.path}
-                    path={item.path}
-                    component={item.component} />
-            )
         })
     )
 }

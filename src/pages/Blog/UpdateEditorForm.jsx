@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { Form, Input, Switch, Upload, Icon, message } from 'antd'
+import React, { useState } from 'react'
+import { Form, Input, Upload, Icon, message } from 'antd'
 
 const { Item } = Form
 
-
-
+// 表单label和input的间距
 const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
 };
 
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
-
-function beforeUpload(file, fileList) {
-    console.log(file, fileList)
+// 在上传前，判断图片是否符合
+function beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         message.error('You can only upload JPG/PNG file!');
@@ -29,38 +22,30 @@ function beforeUpload(file, fileList) {
     return isJpgOrPng && isLt2M;
 }
 
+// 修改的表单
 const UpdateEditorForm = (props) => {
-    const [checked, setChecked] = useState(true)
-    const [uploadAvator, setuUploadAvator] = useState("")
-    const { form, name, avatar, setForm } = props
-    const { getFieldDecorator, setFieldsValue } = form
+    // 由父级组件传递的数据
+    const { form, name, avatar, setForm, setMyUploadAvatar } = props
+    const { getFieldDecorator } = form
 
-    // console.log(setForm)
-    // useEffect(() => {
+    const [myAvatar, setMyAvatar] = useState(avatar)
+
     setForm(form)
-    // })
 
-    useEffect(() => {
-        setuUploadAvator(avatar)
-    }, [avatar])
-
-    const uploadButton = (
-        <div>
-            <Icon type={avatar ? 'loading' : 'plus'} />
-            <div className="ant-upload-text">Upload</div>
-        </div>
-    );
-
-    const changeType = (checked) => {
-        setChecked(checked)
+    // 获取图片base64码
+    function getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
     }
 
-    const getImgBase64 = (obj) => {
-        const { file } = obj
-        getBase64(file, imgBase64 => {
-            setuUploadAvator(imgBase64)
-            setFieldsValue({ avatarStr: imgBase64 })
+    // 保存图片
+    const saveImg = (...args) => {
+        const { file } = args[0]
+        getBase64(file, imageUrl => {
+            setMyAvatar(imageUrl)
         })
+        setMyUploadAvatar(file)
     }
 
     return (
@@ -80,54 +65,22 @@ const UpdateEditorForm = (props) => {
                 }
             </Item>
             <Item
-                label={
-                    getFieldDecorator('avatarSwtich', {
-                        valuePropName: "checked",
-                        initialValue: true
-                    })(
-                        <Switch
-                            checkedChildren="url地址"
-                            unCheckedChildren="图片"
-                            onChange={changeType}>
-
-                        </Switch>
-                    )
-                }>
+                label="头像">
                 {
-                    checked ? (
-                        getFieldDecorator('avatar', {
-                            rules: [{
-                                required: true,
-                                message: "头像必填"
-                            }],
-                            initialValue: avatar
-                        })(
-                            <Input />
-                        )
-                    ) : (
-                            getFieldDecorator('avatarFile', {
-                                valuePropName: 'string',
-                                initialValue: uploadAvator
-                            })(
-                                < Upload
-                                    beforeUpload={beforeUpload}
-                                    listType="picture-card"
-                                    showUploadList={false}
-                                    customRequest={getImgBase64}>
-                                    {uploadAvator ? <img src={uploadAvator} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                                </Upload>
-                            )
-
-                        )
-
-                }
-            </Item>
-            <Item style={{ display: 'none' }}>
-                {
-                    getFieldDecorator('avatarStr',{
-                        initialValue: avatar
+                    getFieldDecorator('avatarFile', {
+                        valuePropName: 'file',
+                        initialValue: myAvatar
                     })(
-                        <Input />
+                        < Upload
+                            name="avatarFile"
+                            listType="picture-card"
+                            className="avatar-uploader"
+                            showUploadList={false}
+                            customRequest={saveImg}
+                            beforeUpload={beforeUpload}
+                        >
+                            <img src={myAvatar} alt="avatar" style={{ width: '100%' }} />
+                        </Upload>
                     )
                 }
             </Item>
@@ -135,7 +88,7 @@ const UpdateEditorForm = (props) => {
     )
 }
 
+// 重新封装，增加一个form的参数
 const WrappedNormalLoginForm = Form.create({ name: 'update_editor_form' })(UpdateEditorForm);
-
 
 export default WrappedNormalLoginForm

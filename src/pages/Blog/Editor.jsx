@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Avatar, Table, Row, Col, Button, Modal, Icon } from 'antd'
-import { reqEditor } from '../../api';
+import { reqEditor, reqUpdateEditor } from '../../api';
 import UpdateEditorForm from './UpdateEditorForm';
 
+// 表格标题
 const columns = [
     {
         title: '图标特定名称',
@@ -40,6 +41,7 @@ const columns = [
 const Editor = () => {
     const [editor, setEditor] = useState({})
     const [visible, setVisible] = useState(false)
+    const [myUploadAvatar, setMyUploadAvatar] = useState(undefined)
     let myForm;
 
     useEffect(() => {
@@ -47,22 +49,44 @@ const Editor = () => {
         getEditor()
     }, [])
 
+    // 获取个人信息
     const getEditor = async () => {
         const result = await reqEditor()
         const { data } = result
         setEditor(data)
     }
 
+    // 展示修改个人信息框
     const showModal = () => {
         setVisible(true)
     }
 
-    const handleOk = () => {
-        console.log(myForm,myForm.getFieldsValue())
+    const setAvatar = (file) => {
+        setMyUploadAvatar(file)
+    }
+
+    // 确认修改个人信息
+    const handleOk = async () => {
+        const { name } = myForm.getFieldsValue()
+        let param = new FormData()
+        param.append('_id', editor._id)
+        param.append('name', name)
+        // 获取其他头像信息
+        // 随机id
+        const { uid, name: imgName } = myUploadAvatar
+        // 获取扩展名
+        const ext = imgName.split('.')[1]
+        param.append('imgName', `${uid}.${ext}`)
+        param.append('avatar', myUploadAvatar)
+        // debugger
+        const result = await reqUpdateEditor(param)
+        console.log(result)
         setVisible(false)
     }
 
+    // 取消修改个人信息
     const handleCancel = () => {
+        myForm.resetFields()
         setVisible(false)
     }
 
@@ -113,7 +137,8 @@ const Editor = () => {
                 <UpdateEditorForm
                     name={name}
                     avatar={avatar}
-                    setForm={(form) => { myForm = form }}>
+                    setForm={(form) => { myForm = form }}
+                    setMyUploadAvatar={setAvatar}>
                 </UpdateEditorForm>
             </Modal>
         </Card >
