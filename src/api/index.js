@@ -35,9 +35,17 @@ const reqArticles = () => {
     return axios.get('/private/getArticles')
 }
 
+// 添加/更新文章
+const reqAddArticle = (data) => {
+    return axios.post('/private/addArticle', data, {
+        headers: { "Content-Type": "multipart/form-data" }
+    })
+}
+
 
 export {
     reqEditor,
     reqArticles,
-    reqUpdateEditor
+    reqUpdateEditor,
+    reqAddArticle
 }

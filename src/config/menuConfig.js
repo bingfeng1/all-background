@@ -9,8 +9,7 @@ const routes = [
     {
         path: '/',
         exact: true,
-        // component: Home,
-        component: Articles,
+        component: Home,
         title: "首页"
     },
     {

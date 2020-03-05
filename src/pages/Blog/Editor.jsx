@@ -72,12 +72,16 @@ const Editor = () => {
         param.append('_id', editor._id)
         param.append('name', name)
         // 获取其他头像信息
-        // 随机id
-        const { uid, name: imgName } = myUploadAvatar
-        // 获取扩展名
-        const ext = imgName.split('.')[1]
-        param.append('imgName', `${uid}.${ext}`)
-        param.append('avatar', myUploadAvatar)
+
+        if (myUploadAvatar) {
+            // 随机id
+            const { uid, name: imgName } = myUploadAvatar
+            // 获取扩展名
+            const ext = imgName.split('.')[1]
+            param.append('imgName', `${uid}.${ext}`)
+            param.append('avatar', myUploadAvatar)
+        }
+
         // debugger
         const result = await reqUpdateEditor(param)
         console.log(result)

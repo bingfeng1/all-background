@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Upload, Icon, message } from 'antd'
+import { Form, Input, Upload,  message } from 'antd'
 
 const { Item } = Form
 

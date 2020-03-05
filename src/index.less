@@ -9,10 +9,84 @@
             margin: 16px;
         }
     }
+
     // 博客个人信息页
-    .editor-info{
+    .editor-info {
         font-size: 1.5rem;
         margin-bottom: 20px;
     }
-}
 
+    // 博客文章添加/修改页
+    .blog_article_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 300px;
+        grid-template-rows: 0.1fr 3fr 0.1fr 3fr 0.1fr;
+        // 格子间距
+        grid-gap: 20px;
+        min-height: calc(100vh - 64px - 120px);
+
+        // 描述占用的格子
+        .desc {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            // max-height: calc(100vh - 427px);
+        }
+
+        // 文章内容占用的列
+        .context {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 6;
+        }
+
+        // 展示用的格子
+        .showContext {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 6;
+            border: 1px solid black;
+            border-radius: 8px;
+            padding: 8px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: auto;
+            max-height: calc(100vh - 64px - 69px - 20px - 40px - 32px);
+        }
+
+        textarea {
+            height: 100%;
+        }
+
+        // 日期选项框撑满
+        .date {
+            .ant-calendar-picker {
+                width: 100%;
+            }
+        }
+
+        // 描述图片框
+        .avatarFile {
+            border: 1px solid gray;
+            border-radius: 8px;
+
+            .avatar-uploader {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+
+                .ant-upload {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
