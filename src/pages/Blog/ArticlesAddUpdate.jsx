@@ -4,7 +4,7 @@ import marked from 'marked'
 import moment from 'moment';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
-import { getNowDate } from '../../utils/dateFormat';
+import { dateFormat } from '../../utils/dateFormat';
 import { reqAddArticle } from '../../api';
 
 const { TextArea } = Input
@@ -22,7 +22,7 @@ const ArticlesAddUpdate = (props) => {
     const [imgFile, setImgFile] = useState(undefined)
 
     // 用于获取日期
-    const [dateString, setdateString] = useState(getNowDate().nowYearMonthDate)
+    const [dateString, setdateString] = useState(dateFormat().getYearMonthDate)
 
     // 判断是否置顶
     const [isTop, setIsTop] = useState(false)

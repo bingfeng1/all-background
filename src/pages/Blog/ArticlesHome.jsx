@@ -3,14 +3,24 @@ import React, { useState, useEffect } from 'react'
 import { Card, Table, PageHeader, Button, Icon } from 'antd'
 import { reqArticles } from '../../api'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getArticleGroupAction } from '../../store/actionCreator/blogAction'
+import { dateFormat } from '../../utils/dateFormat';
 
-const ArticlesHome = () => {
+const ArticlesHome = ({
+    articleGroup,
+    getArticleGroup
+}) => {
     // 文章列表
     const [articles, setArticles] = useState([])
 
     // 获取文章列表
     useEffect(() => {
         getArticles()
+        // 获取分组信息
+        if (articleGroup.length === 0) {
+            getArticleGroup()
+        }
     }, [])
 
     // 表格表头
@@ -20,16 +30,46 @@ const ArticlesHome = () => {
             dataIndex: 'title'
         }, {
             title: '分类',
-            dataIndex: 'group'
+            dataIndex: 'group',
+            render: (text) => {
+                return (
+                    <span>
+                        {
+                            articleGroup.find(value => value._id === text)?.name
+                        }
+                    </span>
+                )
+            }
         }, {
             title: '发布日期',
-            dataIndex: 'date'
+            dataIndex: 'date',
+            render:(text)=>{
+                return (
+                    <span>
+                        {
+                            dateFormat(text).getYearMonthDate
+                        }
+                    </span>
+                )
+            }
         }, {
             title: '展示大图',
-            dataIndex: 'img'
+            dataIndex: 'img',
+            render:(text)=>{
+                return (
+                    <img src={text} alt={text} style={{maxWidth:'200px'}}/>
+                )
+            }
         }, {
             title: '是否置顶',
-            dataIndex: 'isTop'
+            dataIndex: 'isTop',
+            render: (text) => {
+                return (
+                    <span>
+                        {text ? '是' : '否'}
+                    </span>
+                )
+            }
         }, {
             title: '访问数量',
             dataIndex: 'customerNum'
@@ -91,4 +131,20 @@ const ArticlesHome = () => {
     )
 }
 
-export default ArticlesHome
+
+const mapStateToProps = state => {
+    return {
+        articleGroup: state.articleGroup
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getArticleGroup: async () => {
+            const action = await getArticleGroupAction()
+            dispatch(action)
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlesHome)
