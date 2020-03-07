@@ -39,9 +39,10 @@ const reqArticleGroup = () => {
     return axios.get('/getArticleGroup')
 }
 
-// 添加分类信息
-const reqAddArticleGroup = data => {
-    return axios.post('/private/addArticleGroup', data)
+// 添加或修改分类信息
+const reqAddOrUpdateArticleGroup = data => {
+    const path = !!data._id ? 'updateArticleGroup' : 'addArticleGroup'
+    return axios.post(`/private/${path}`, data)
 }
 
 // 删除分类
@@ -72,6 +73,6 @@ export {
     reqUpdateEditor,
     reqAddArticle,
     reqArticleGroup,
-    reqAddArticleGroup,
+    reqAddOrUpdateArticleGroup,
     reqDeleteArticleGroup
 }

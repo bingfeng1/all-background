@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Table, Row, Col, Button, Icon, Modal, Form, Input, message } from 'antd'
-import { reqAddArticleGroup, reqArticleGroup } from '../../api'
+import { Card, Table, Row, Col, Button, Icon, Modal, Form, Input } from 'antd'
 import { connect } from "react-redux";
-import { getArticleGroupAction, addArticleGroupAction, deleteArticleGroupAction } from "../../store/actionCreator/blogAction";
+import { getArticleGroupAction, deleteArticleGroupAction, addOrUpdateArticleGroupAction } from "../../store/actionCreator/blogAction";
 
 const ArticleGroup = (
     {
         form,   // antd的form
         articleGroup,   // redux使用的articleGroup（这里进行测试使用，主要在写文章的地方使用）
         getArticleGroup,
-        addArticleGroup,
+        addOrUpdateArticleGroup,
         deleteArticleGroup
     }
 ) => {
@@ -25,6 +24,9 @@ const ArticleGroup = (
 
     // 是否显示弹层
     const [visible, setVisible] = useState(false)
+
+    // 需要修改的分组
+    const [editArticleGroup, setEditArticleGroup] = useState({})
 
     const columns = [
         {
@@ -45,7 +47,7 @@ const ArticleGroup = (
                         操作
                     </Col>
                     <Col>
-                        <Button type="primary" size="small" onClick={() => addGroup()}>
+                        <Button type="primary" size="small" onClick={() => addOrUpdateGroup()}>
                             <Icon type="plus" />
                         </Button>
                     </Col>
@@ -54,7 +56,10 @@ const ArticleGroup = (
             dataIndex: '',
             render: (text) => (
                 <>
-                    <Button type="dashed" style={{ marginRight: '10px' }}>
+                    <Button
+                        type="dashed"
+                        style={{ marginRight: '10px' }}
+                        onClick={() => addOrUpdateGroup(text)}>
                         修改
                     </Button>
                     <Button type="danger" onClick={() => deleteArticleGroup(text)}>
@@ -65,22 +70,28 @@ const ArticleGroup = (
         },
     ]
 
-    // 添加分组
-    const addGroup = () => {
+    // 添加或者修改分组
+    const addOrUpdateGroup = (data) => {
+        // 如果有参数传入，那就是修改
+        if (data) {
+            setEditArticleGroup(data)
+        } else {
+            // 没有参数，就是增加
+            setEditArticleGroup({})
+        }
         setVisible(true)
     }
 
     // 点击确认
     const handleOk = async () => {
-        const result = getFieldsValue()
-        const { data } = await reqAddArticleGroup(result)
-        if (data && data.status !== "403") {
-            const { _id, name, sort } = data[0]
-            addArticleGroup({ _id, name, sort })
-            setVisible(false)
-        } else {
-            message.error('提交分类失败')
-        }
+        // 获取表单的值
+        let result = getFieldsValue()
+        // 这里判断是否有editArticleGroup，如果有，那就是修改
+        !!editArticleGroup._id && (result._id = editArticleGroup._id)
+        addOrUpdateArticleGroup(result)
+        // 清空表单
+        resetFields()
+        setVisible(false)
     }
 
     const handleCancel = () => {
@@ -103,14 +114,18 @@ const ArticleGroup = (
                 <Form>
                     <Form.Item>
                         {
-                            getFieldDecorator('name')(
+                            getFieldDecorator('name', {
+                                initialValue: editArticleGroup.name
+                            })(
                                 <Input placeholder="分类名称" />
                             )
                         }
                     </Form.Item>
                     <Form.Item>
                         {
-                            getFieldDecorator('sort')(
+                            getFieldDecorator('sort', {
+                                initialValue: editArticleGroup.sort
+                            })(
                                 <Input placeholder="分类排序" />
                             )
                         }
@@ -129,14 +144,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getArticleGroup() {
-            reqArticleGroup().then(res => {
-                const action = getArticleGroupAction(res.data)
-                dispatch(action)
-            })
+        getArticleGroup: async () => {
+            const action = await getArticleGroupAction()
+            dispatch(action)
         },
-        addArticleGroup(data) {
-            const action = addArticleGroupAction(data)
+        addOrUpdateArticleGroup: async (data) => {
+            const action = await addOrUpdateArticleGroupAction(data)
             dispatch(action)
         },
         deleteArticleGroup: async (data) => {
