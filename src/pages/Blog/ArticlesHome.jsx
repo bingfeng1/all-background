@@ -53,7 +53,6 @@ const ArticlesHome = () => {
     const getArticles = async () => {
         // 获取文章结果
         const { data } = await reqArticles()
-        console.log(data)
         setArticles(data)
     }
 

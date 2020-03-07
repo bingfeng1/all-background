@@ -35,7 +35,7 @@ function App() {
             {
               Routes
             }
-            <Redirect to="/blog/articles/addupdate"/>
+            {/* <Redirect to="/blog/articles-group"/> */}
           </Content>
           <Footer>Footer</Footer>
         </Layout>

@@ -30,6 +30,25 @@ const reqUpdateEditor = (data) => {
     })
 }
 
+// 获取分类信息
+const reqArticleGroup = () => {
+    return axios.get('/private/getArticleGroup')
+}
+
+// 添加分类信息
+const reqAddArticleGroup = data => {
+    return axios.post('/private/addArticleGroup', data)
+}
+
+// 删除分类
+const reqDeleteArticleGroup = data => {
+    return axios.delete('/private/deleteArticleGroup', {
+        data: {
+            _id: data
+        }
+    })
+}
+
 // 获取文章
 const reqArticles = () => {
     return axios.get('/private/getArticles')
@@ -47,5 +66,8 @@ export {
     reqEditor,
     reqArticles,
     reqUpdateEditor,
-    reqAddArticle
+    reqAddArticle,
+    reqArticleGroup,
+    reqAddArticleGroup,
+    reqDeleteArticleGroup
 }
