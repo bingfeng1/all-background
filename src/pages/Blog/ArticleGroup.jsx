@@ -74,7 +74,7 @@ const ArticleGroup = (
     const handleOk = async () => {
         const result = getFieldsValue()
         const { data } = await reqAddArticleGroup(result)
-        if (data) {
+        if (data && data.status !== "403") {
             const { _id, name, sort } = data[0]
             addArticleGroup({ _id, name, sort })
             setVisible(false)

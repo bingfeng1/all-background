@@ -13,6 +13,10 @@ axios.interceptors.request.use(function (config) {
 });
 
 axios.interceptors.response.use(response => {
+    const { data } = response
+    if (data.status === "403") {
+        message.error(`${data.msg}`)
+    }
     return response;
 }, err => {
     return message.error(`出现错误：${err}`)
@@ -20,7 +24,7 @@ axios.interceptors.response.use(response => {
 
 // 获取作者信息
 const reqEditor = () => {
-    return axios.get('/private/getEditor')
+    return axios.get('/getEditor')
 }
 
 // 修改个人信息
@@ -32,7 +36,7 @@ const reqUpdateEditor = (data) => {
 
 // 获取分类信息
 const reqArticleGroup = () => {
-    return axios.get('/private/getArticleGroup')
+    return axios.get('/getArticleGroup')
 }
 
 // 添加分类信息
@@ -51,7 +55,7 @@ const reqDeleteArticleGroup = data => {
 
 // 获取文章
 const reqArticles = () => {
-    return axios.get('/private/getArticles')
+    return axios.get('/getArticles')
 }
 
 // 添加/更新文章

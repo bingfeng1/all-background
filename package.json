@@ -48,5 +48,6 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0"
   },
-  "proxy": "http://localhost:9000"
+  "proxy": "http://localhost:9000",
+  "homepage": "http://localhost:9000/all-background"
 }

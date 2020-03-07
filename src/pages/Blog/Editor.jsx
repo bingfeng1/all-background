@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Avatar, Table, Row, Col, Button, Modal, Icon } from 'antd'
+import { Card, Avatar, Table, Row, Col, Button, Modal, Icon, message } from 'antd'
 import { reqEditor, reqUpdateEditor } from '../../api';
 import UpdateEditorForm from './UpdateEditorForm';
 
@@ -53,7 +53,9 @@ const Editor = () => {
     const getEditor = async () => {
         const result = await reqEditor()
         const { data } = result
-        setEditor(data)
+        if (data.status !== 403) {
+            setEditor(data)
+        }
     }
 
     // 展示修改个人信息框
@@ -82,9 +84,10 @@ const Editor = () => {
             param.append('avatar', myUploadAvatar)
         }
 
-        // debugger
-        const result = await reqUpdateEditor(param)
-        console.log(result)
+        const { data } = await reqUpdateEditor(param)
+        if (data.status !== "403") {
+            message.success('个人信息更新成功')
+        }
         setVisible(false)
     }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
 import { Layout, Menu } from 'antd';
 import MenuList from './components/App/Menu'
 import Routes from './routers'
@@ -31,11 +31,11 @@ function App() {
           <Header style={{ background: '#fff', padding: 0 }}>
             <AppHeader></AppHeader>
           </Header>
-          <Content style={{padding:"20px"}}>
+          <Content style={{ padding: "20px" }}>
             {
               Routes
             }
-            {/* <Redirect to="/blog/articles-group"/> */}
+            <Route to="/" />
           </Content>
           <Footer>Footer</Footer>
         </Layout>
