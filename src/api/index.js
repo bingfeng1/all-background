@@ -78,6 +78,22 @@ const reqDeleteArticle = (_id) => {
     })
 }
 
+// 获取文章详情
+const reqArticleDetail = (_id) => {
+    return axios.get('/getArticleDetail', {
+        params: {
+            _id
+        }
+    })
+}
+
+// 更新文章信息
+const reqUpdateArticle = (data) => {
+    return axios.put('/private/updateArticle', data, {
+        headers: { "Content-Type": "multipart/form-data" }
+    })
+}
+
 export {
     reqEditor,
     reqArticles,
@@ -86,5 +102,7 @@ export {
     reqArticleGroup,
     reqAddOrUpdateArticleGroup,
     reqDeleteArticleGroup,
-    reqDeleteArticle
+    reqDeleteArticle,
+    reqArticleDetail,
+    reqUpdateArticle
 }

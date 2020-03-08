@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
 import { Input, Select, Form, DatePicker, Upload, message, Button, Icon, Switch } from 'antd'
 import marked from 'marked'
@@ -6,7 +6,7 @@ import moment from 'moment';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import { dateFormat } from '../../utils/dateFormat';
-import { reqAddArticle } from '../../api';
+import { reqAddArticle, reqArticleDetail, reqUpdateArticle } from '../../api';
 import { getArticleGroupAction } from '../../store/actionCreator/blogAction';
 
 const { TextArea } = Input
@@ -14,8 +14,9 @@ const { Option } = Select
 
 const ArticlesAddUpdate = (props) => {
     // 通过Form.create获取
-    const { form, articleGroup, getArticleGroup } = props
+    const { form, articleGroup, getArticleGroup, location } = props
     const { getFieldDecorator, getFieldValue, getFieldsValue } = form
+    const { state } = location
 
     // 获取分组信息
     if (articleGroup.length === 0) {
@@ -23,20 +24,34 @@ const ArticlesAddUpdate = (props) => {
     }
 
     // 用于展示的图片
-    const [imgUrl, setImgUrl] = useState("")
+    const [imgUrl, setImgUrl] = useState(state?.img)
 
     // 用于保存，发送后端的图片
     const [imgFile, setImgFile] = useState(undefined)
 
     // 用于获取日期
-    const [dateString, setdateString] = useState(dateFormat().getYearMonthDate)
+    const [dateString, setdateString] = useState(dateFormat(state?.date ?? undefined).getYearMonthDate)
 
     // 判断是否置顶
-    const [isTop, setIsTop] = useState(false)
+    const [isTop, setIsTop] = useState(state?.isTop ?? false)
 
     // 改变日期
     const changeDate = (date, dateString) => {
         setdateString(dateString)
+    }
+
+    // 文章详细内容
+    const [context, setContext] = useState("")
+
+    // 获取文章详情
+    const getArticleDetail = async (_id) => {
+        const { data } = await reqArticleDetail(_id)
+        setContext(data.context)
+    }
+
+    //如果有id存在的话，从后端能获取文章详细信息
+    if (state?._id) {
+        getArticleDetail(state._id)
     }
 
 
@@ -99,11 +114,14 @@ const ArticlesAddUpdate = (props) => {
 
     // 新增或者修改文章，通过是否有参数判断
     const addOrUpdateArticle = async () => {
-        // 暂时默认就是添加
-
         //获取表单值
         const { title, group, desc, context } = getFieldsValue()
         const param = new FormData()
+
+        // 判断是否有_id，决定是新增还是修改
+        if (state?._id) {
+            param.append('_id', state._id)
+        }
         param.append('title', title)
         param.append('group', group)
         param.append('date', dateString)
@@ -117,8 +135,13 @@ const ArticlesAddUpdate = (props) => {
             param.append('imgName', `${uid}.${ext}`)
             param.append('img', imgFile)
         }
-
-        const result = await reqAddArticle(param)
+        let result;
+        // 判断是否有_id，决定是新增还是修改
+        if (state?._id) {
+            result = await reqUpdateArticle(param)
+        } else {
+            result = await reqAddArticle(param)
+        }
         if (result.data?.status !== 403) {
             if (result.status === 200) {
                 message.success('提交成功')
@@ -137,7 +160,7 @@ const ArticlesAddUpdate = (props) => {
                 <div>
                     {
                         getFieldDecorator('title', {
-                            initialValue: ""
+                            initialValue: state?.title
                         })(
                             <Input placeholder="请输入标题" />
                         )
@@ -147,7 +170,7 @@ const ArticlesAddUpdate = (props) => {
                 <div>
                     {
                         getFieldDecorator('group', {
-                            initialValue:""
+                            initialValue: state?.group ?? articleGroup[0]?._id ?? ""
                         })(
                             <Select>
                                 {
@@ -169,7 +192,7 @@ const ArticlesAddUpdate = (props) => {
                 <div className="desc">
                     {
                         getFieldDecorator('desc', {
-                            initialValue: ""
+                            initialValue: state?.desc ?? ''
                         })(
                             <TextArea />
                         )
@@ -179,7 +202,7 @@ const ArticlesAddUpdate = (props) => {
                 <div className="context">
                     {
                         getFieldDecorator('context', {
-                            initialValue: ""
+                            initialValue: context
                         })(
                             <TextArea />
                         )

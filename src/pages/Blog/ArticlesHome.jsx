@@ -9,7 +9,8 @@ import { dateFormat } from '../../utils/dateFormat';
 
 const ArticlesHome = ({
     articleGroup,
-    getArticleGroup
+    getArticleGroup,
+    history
 }) => {
     // 文章列表
     const [articles, setArticles] = useState([])
@@ -80,7 +81,10 @@ const ArticlesHome = ({
             dataIndex: '',
             render: (text) => (
                 <>
-                    <Button type="dashed" style={{ marginRight: '10px' }}>
+                    <Button
+                        type="dashed"
+                        style={{ marginRight: '10px' }}
+                        onClick={() => updateArticle(text)}>
                         修改
                     </Button>
                     <Popconfirm
@@ -122,15 +126,22 @@ const ArticlesHome = ({
     const deleteArticle = async (text) => {
         const { _id } = text
         const { data } = await reqDeleteArticle(_id)
-        if(data.status!==403){
+        if (data.status !== 403) {
             message.success('删除文章成功')
 
         }
-        if(data.status===500){
+        if (data.status === 500) {
             message.error('删除图片失败')
         }
         // 重新获取文章列表
         getArticles()
+    }
+
+    // 更新文章
+    const updateArticle = (text) => {
+        // 将参数传给另一个页面
+        console.log(text)
+        history.push({ pathname: '/blog/articles/addupdate', state: text })
     }
 
     return (
