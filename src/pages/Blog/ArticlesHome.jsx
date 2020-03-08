@@ -1,7 +1,7 @@
 // 博客文章主页面
 import React, { useState, useEffect } from 'react'
-import { Card, Table, PageHeader, Button, Icon } from 'antd'
-import { reqArticles } from '../../api'
+import { Card, Table, PageHeader, Button, Icon, Popconfirm, message } from 'antd'
+import { reqArticles, reqDeleteArticle } from '../../api'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getArticleGroupAction } from '../../store/actionCreator/blogAction'
@@ -17,11 +17,12 @@ const ArticlesHome = ({
     // 获取文章列表
     useEffect(() => {
         getArticles()
-        // 获取分组信息
-        if (articleGroup.length === 0) {
-            getArticleGroup()
-        }
     }, [])
+
+    // 获取分组信息
+    if (articleGroup.length === 0) {
+        getArticleGroup()
+    }
 
     // 表格表头
     const columns = [
@@ -43,7 +44,7 @@ const ArticlesHome = ({
         }, {
             title: '发布日期',
             dataIndex: 'date',
-            render:(text)=>{
+            render: (text) => {
                 return (
                     <span>
                         {
@@ -55,9 +56,9 @@ const ArticlesHome = ({
         }, {
             title: '展示大图',
             dataIndex: 'img',
-            render:(text)=>{
+            render: (text) => {
                 return (
-                    <img src={text} alt={text} style={{maxWidth:'200px'}}/>
+                    <img src={text} alt={text} style={{ maxWidth: '200px' }} />
                 )
             }
         }, {
@@ -77,14 +78,23 @@ const ArticlesHome = ({
         {
             title: '操作',
             dataIndex: '',
-            render: () => (
+            render: (text) => (
                 <>
                     <Button type="dashed" style={{ marginRight: '10px' }}>
                         修改
                     </Button>
-                    <Button type="danger">
-                        删除
+                    <Popconfirm
+                        title="确认删除吗"
+                        icon={<Icon type="exclamation-circle" style={{ color: 'red' }} />}
+                        onConfirm={() => deleteArticle(text)}
+                        okText="是的"
+                        cancelText="点错了，不删">
+                        <Button
+                            type="danger"
+                        >
+                            删除
                     </Button>
+                    </Popconfirm>
                 </>
             ),
         },
@@ -106,6 +116,21 @@ const ArticlesHome = ({
                 </Button>
             </Link>
         )
+    }
+
+    // 删除文章
+    const deleteArticle = async (text) => {
+        const { _id } = text
+        const { data } = await reqDeleteArticle(_id)
+        if(data.status!==403){
+            message.success('删除文章成功')
+
+        }
+        if(data.status===500){
+            message.error('删除图片失败')
+        }
+        // 重新获取文章列表
+        getArticles()
     }
 
     return (

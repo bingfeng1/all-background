@@ -85,8 +85,12 @@ const Editor = () => {
         }
 
         const { data } = await reqUpdateEditor(param)
-        if (data.status !== "403") {
+        if (data.status !== 403) {
             message.success('个人信息更新成功')
+        }
+        if (data.status === 200) {
+            // 更新界面
+            getEditor()
         }
         setVisible(false)
     }

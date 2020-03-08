@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from "react-redux";
 import { Input, Select, Form, DatePicker, Upload, message, Button, Icon, Switch } from 'antd'
 import marked from 'marked'
 import moment from 'moment';
@@ -6,14 +7,20 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import { dateFormat } from '../../utils/dateFormat';
 import { reqAddArticle } from '../../api';
+import { getArticleGroupAction } from '../../store/actionCreator/blogAction';
 
 const { TextArea } = Input
 const { Option } = Select
 
 const ArticlesAddUpdate = (props) => {
     // 通过Form.create获取
-    const { form } = props
+    const { form, articleGroup, getArticleGroup } = props
     const { getFieldDecorator, getFieldValue, getFieldsValue } = form
+
+    // 获取分组信息
+    if (articleGroup.length === 0) {
+        getArticleGroup()
+    }
 
     // 用于展示的图片
     const [imgUrl, setImgUrl] = useState("")
@@ -112,9 +119,13 @@ const ArticlesAddUpdate = (props) => {
         }
 
         const result = await reqAddArticle(param)
-        if(result.status === 200){
-            message.success('提交成功')
-            props.history.push('/blog/articles')
+        if (result.data?.status !== 403) {
+            if (result.status === 200) {
+                message.success('提交成功')
+                props.history.push('/blog/articles')
+            } else {
+                message.error('提交失败', result.errmsg)
+            }
         }
     }
 
@@ -136,10 +147,20 @@ const ArticlesAddUpdate = (props) => {
                 <div>
                     {
                         getFieldDecorator('group', {
-                            initialValue: "1"
+                            initialValue:""
                         })(
                             <Select>
-                                <Option value="1">abc</Option>
+                                {
+                                    articleGroup.map(item => (
+                                        <Option
+                                            value={item._id}
+                                            key={item._id}>
+                                            {
+                                                item.name
+                                            }
+                                        </Option>
+                                    ))
+                                }
                             </Select>
                         )
                     }
@@ -206,4 +227,19 @@ const ArticlesAddUpdate = (props) => {
     )
 }
 
-export default Form.create()(ArticlesAddUpdate)
+const mapStateToProps = state => {
+    return {
+        articleGroup: state.articleGroup
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getArticleGroup: async () => {
+            const action = await getArticleGroupAction()
+            dispatch(action)
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(ArticlesAddUpdate))

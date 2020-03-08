@@ -15,7 +15,7 @@ const getArticleGroupAction = async () => {
 const addOrUpdateArticleGroupAction = async (result) => {
     const flag = !!result._id
     const { data } = await reqAddOrUpdateArticleGroup(result)
-    if (data.status !== "403") {
+    if (data.status !== 403) {
         message.success(`${flag ? '修改' : '添加'} 分组成功`)
         return ({
             type: flag ? UPDATE_ARTICLE_GROUP : ADD_ARTICLE_GROUP,

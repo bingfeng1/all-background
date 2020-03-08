@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { HashRouter as Router, Redirect, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom'
 import { Layout, Menu } from 'antd';
 import MenuList from './components/App/Menu'
 import Routes from './routers'
 import AppHeader from './components/App/Header';
+import Footer from './components/App/Footer';
 
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false)
@@ -37,7 +38,9 @@ function App() {
             }
             <Route to="/" />
           </Content>
-          <Footer>Footer</Footer>
+          <footer>
+            <Footer />
+          </footer>
         </Layout>
       </Layout>
     </Router>

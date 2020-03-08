@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Card, Table, Row, Col, Button, Icon, Modal, Form, Input } from 'antd'
 import { connect } from "react-redux";
 import { getArticleGroupAction, deleteArticleGroupAction, addOrUpdateArticleGroupAction } from "../../store/actionCreator/blogAction";
@@ -15,12 +15,10 @@ const ArticleGroup = (
     // 表单数据
     const { getFieldDecorator, getFieldsValue, resetFields } = form
 
-    useEffect(() => {
-        // 获取分组信息
-        if (articleGroup.length === 0) {
-            getArticleGroup()
-        }
-    }, [])
+    // 获取分组信息
+    if (articleGroup.length === 0) {
+        getArticleGroup()
+    }
 
     // 是否显示弹层
     const [visible, setVisible] = useState(false)

@@ -14,8 +14,11 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(response => {
     const { data } = response
-    if (data.status === "403") {
+    if (data.status === 403) {
         message.error(`${data.msg}`)
+    }
+    if (data.status === 500) {
+        message.error(`服务器处理问题${data.msg}`)
     }
     return response;
 }, err => {
@@ -29,7 +32,7 @@ const reqEditor = () => {
 
 // 修改个人信息
 const reqUpdateEditor = (data) => {
-    return axios.post('/private/updateEditor', data, {
+    return axios.put('/private/updateEditor', data, {
         headers: { "Content-Type": "multipart/form-data" }
     })
 }
@@ -59,13 +62,21 @@ const reqArticles = () => {
     return axios.get('/getArticles')
 }
 
-// 添加/更新文章
+// 添加文章
 const reqAddArticle = (data) => {
     return axios.post('/private/addArticle', data, {
         headers: { "Content-Type": "multipart/form-data" }
     })
 }
 
+// 删除文章
+const reqDeleteArticle = (_id) => {
+    return axios.delete('/private/deleteArticle', {
+        data: {
+            _id
+        }
+    })
+}
 
 export {
     reqEditor,
@@ -74,5 +85,6 @@ export {
     reqAddArticle,
     reqArticleGroup,
     reqAddOrUpdateArticleGroup,
-    reqDeleteArticleGroup
+    reqDeleteArticleGroup,
+    reqDeleteArticle
 }
