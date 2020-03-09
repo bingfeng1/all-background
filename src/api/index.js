@@ -94,6 +94,32 @@ const reqUpdateArticle = (data) => {
     })
 }
 
+
+// 获取分类信息
+const reqExtendLink = () => {
+    return axios.get('/getExtendLink')
+}
+
+// 添加分类信息
+const reqAddExtendLink = data => {
+    return axios.post(`/private/addExtendLink`, data)
+}
+
+// 修改分类信息
+const reqUpdateExtendLink = data => {
+    return axios.put(`/private/updateExtendLink`, data)
+}
+
+// 删除分类
+const reqDeleteExtendLink = data => {
+    return axios.delete('/private/deleteExtendLink', {
+        data: {
+            _id: data
+        }
+    })
+}
+
+
 export {
     reqEditor,
     reqArticles,
@@ -104,5 +130,9 @@ export {
     reqDeleteArticleGroup,
     reqDeleteArticle,
     reqArticleDetail,
-    reqUpdateArticle
+    reqUpdateArticle,
+    reqExtendLink,
+    reqAddExtendLink,
+    reqDeleteExtendLink,
+    reqUpdateExtendLink
 }

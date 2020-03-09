@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from "react-redux";
 import { Input, Select, Form, DatePicker, Upload, message, Button, Icon, Switch } from 'antd'
 import marked from 'marked'

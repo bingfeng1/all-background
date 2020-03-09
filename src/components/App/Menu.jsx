@@ -14,7 +14,7 @@ const createLink = routes => {
                         key={route.path}
                         title={
                             <span>
-                                <Icon type="border-outer" />
+                                <Icon type={route.icon} />
                                 <span>{route.title}</span>
                             </span>
                         }>
@@ -27,7 +27,7 @@ const createLink = routes => {
                 return (
                     <Menu.Item key={route.path}>
                         <Link to={route.path}>
-                            <Icon type="border-outer" />
+                            <Icon type={route.icon} />
                             {route.title}
                         </Link>
                     </Menu.Item>
