@@ -49,7 +49,7 @@ const ExtendLink = (
                         操作
                 </Col>
                     <Col>
-                        <Button type="primary" size="small" onClick={() => addOrUpdateGroup()}>
+                        <Button type="primary" size="small" onClick={() => addOrUpdateExtendLink()}>
                             <Icon type="plus" />
                         </Button>
                     </Col>
@@ -61,7 +61,7 @@ const ExtendLink = (
                     <Button
                         type="dashed"
                         style={{ marginRight: '10px' }}
-                        onClick={() => addOrUpdateGroup(text)}>
+                        onClick={() => addOrUpdateExtendLink(text)}>
                         修改
                 </Button>
                     <Button type="danger" onClick={() => deleteExtendLink(text)}>
@@ -73,7 +73,7 @@ const ExtendLink = (
     ]
 
     // 添加或者修改链接
-    const addOrUpdateGroup = (data) => {
+    const addOrUpdateExtendLink = (data) => {
         // 如果有参数传入，那就是修改
         if (data) {
             setEditExtendLink(data)

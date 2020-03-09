@@ -140,7 +140,6 @@ const ArticlesHome = ({
     // 更新文章
     const updateArticle = (text) => {
         // 将参数传给另一个页面
-        console.log(text)
         history.push({ pathname: '/blog/articles/addupdate', state: text })
     }
 

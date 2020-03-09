@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { connect } from "react-redux";
 import { Input, Select, Form, DatePicker, Upload, message, Button, Icon, Switch } from 'antd'
 import marked from 'marked'
@@ -48,6 +48,7 @@ const ArticlesAddUpdate = (props) => {
         const { data } = await reqArticleDetail(_id)
         setContext(data.context)
     }
+
 
     //如果有id存在的话，从后端能获取文章详细信息
     if (state?._id) {
@@ -99,6 +100,38 @@ const ArticlesAddUpdate = (props) => {
             return hljs.highlightAuto(code).value
         }
     })
+
+    // markdown写入
+    const mkw = useRef(null)
+    // markdown读取
+    const mkr = useRef(null)
+
+    // markdown滚轮联动
+    const markdown_write = () => {
+        // 滚动的比例
+        const [scrollTop, scrollHeight] = [mkw.current.firstElementChild.scrollTop, mkw.current.firstElementChild.scrollHeight]
+        const scale = (scrollTop / scrollHeight).toFixed(2)
+        mkr.current.scrollTo(mkr.current.scrollTop, scale * mkr.current.scrollHeight)
+
+    }
+
+    const markdown_read = () => {
+        // 滚动的比例
+        const [scrollTop, scrollHeight] = [mkr.current.scrollTop, mkr.current.scrollHeight]
+        const scale = (scrollTop / scrollHeight).toFixed(2)
+        mkw.current.firstElementChild.scrollTo(mkw.current.firstElementChild.scrollTop, scale * mkw.current.firstElementChild.scrollHeight)
+    }
+
+    // 防抖
+    const debounce = (fn) => {
+        let timeout = null;
+        return function () {
+            if (timeout !== null) {
+                clearTimeout(timeout)
+            }
+            timeout = setTimeout(fn, 50);
+        }
+    }
 
     const uploadButton = (
         <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -199,7 +232,7 @@ const ArticlesAddUpdate = (props) => {
                     }
                 </div>
                 {/* 文章内容（textarea） */}
-                <div className="context">
+                <div className="context" onScroll={debounce(markdown_write)} ref={mkw}>
                     {
                         getFieldDecorator('context', {
                             initialValue: context
@@ -209,7 +242,7 @@ const ArticlesAddUpdate = (props) => {
                     }
                 </div>
                 {/* 文章内容（展示） */}
-                <div className="showContext">
+                <div className="showContext" onScroll={debounce(markdown_read)} ref={mkr}>
                     {/* markdown */}
                     <div dangerouslySetInnerHTML={{ __html: marked(getFieldValue("context")) }}>
                     </div>
