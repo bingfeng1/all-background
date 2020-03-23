@@ -119,6 +119,15 @@ const reqDeleteExtendLink = data => {
     })
 }
 
+// 获取定时任务
+const reqGetTimedTask = () => {
+    return axios.get('/getTimedTask')
+}
+
+// 修改定时任务
+const reqUpdateTimedTask = (data) => {
+    return axios.put('/private/changeTimedTask', data)
+}
 
 export {
     reqEditor,
@@ -134,5 +143,7 @@ export {
     reqExtendLink,
     reqAddExtendLink,
     reqDeleteExtendLink,
-    reqUpdateExtendLink
+    reqUpdateExtendLink,
+    reqGetTimedTask,
+    reqUpdateTimedTask
 }

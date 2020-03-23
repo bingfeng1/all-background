@@ -3,6 +3,7 @@ import Home from '../pages/Home/Home'
 import Articles from '../pages/Blog/Articles'
 import ArticleGroup from '../pages/Blog/ArticleGroup'
 import ExtendLink from '../pages/Extend/ExtendLink'
+import TimedTask from '../pages/Extend/TimedTask'
 
 const routes = [
     {
@@ -47,6 +48,11 @@ const routes = [
                 title: '扩展链接',
                 icon: 'link',
                 component: ExtendLink
+            },{
+                path:'/extend/timed-task',
+                title: '定时任务',
+                icon: 'clock-circle',
+                component: TimedTask
             }
         ]
     }
