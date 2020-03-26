@@ -130,6 +130,16 @@ const reqUpdateTimedTask = (data) => {
     return axios.put('/private/changeTimedTask', data)
 }
 
+// 获取病毒信息
+const reqGetNcov = () => {
+    return axios.get('/getNcov')
+}
+
+// 获取服务器信息
+const reqGetComputerInfo = () => {
+    return axios.get('/getComputerInfo')
+}
+
 export {
     reqEditor,
     reqArticles,
@@ -146,5 +156,7 @@ export {
     reqDeleteExtendLink,
     reqUpdateExtendLink,
     reqGetTimedTask,
-    reqUpdateTimedTask
+    reqUpdateTimedTask,
+    reqGetNcov,
+    reqGetComputerInfo
 }

@@ -79,3 +79,6 @@
 
 - /getTimedTask：获取定时任务
 - /private/changeTimedTask：是否启动定时任务
+
+- /getNcov：获取病毒信息
+- /getComputerInfo：获取电脑信息

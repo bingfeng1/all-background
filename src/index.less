@@ -104,8 +104,76 @@
             width: 100%;
         }
     }
+
+    // 首页大屏（1080P）
+    .home_grid {
+        background-image: radial-gradient(rgba(0, 71, 175), rgba(6, 19, 47));
+        min-height: calc(100vh - 64px - 62px - 40px);
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        grid-template-rows: 1fr 1fr 10fr;
+        // 格子间距
+        grid-gap: 20px;
+        // 文字
+        color: #91ccff;
+        font-size: 1.4rem;
+
+        p {
+            padding: 0;
+            margin: 0;
+        }
+
+        &>div {
+            outline: 1px solid white;
+        }
+
+        // 占两行
+        .computer_info {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 3;
+
+            .flex-center();
+            width: 100%;
+
+            // 每个需要显示的元素
+            &>div {
+                height: 100%;
+                .flex-center();
+                justify-content: space-between;
+                flex-grow: 1;
+
+                &>.num_title {
+                    flex-grow: 1;
+                }
+
+                &>.chart_title {
+                    height: 100%;
+                    flex-grow: 2;
+                }
+            }
+        }
+    }
 }
 
-.center{
+.center {
     text-align: center;
+}
+
+// 全屏
+.full_screen {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
