@@ -22,7 +22,8 @@ axios.interceptors.response.use(response => {
     }
     return response;
 }, err => {
-    return message.error(`出现错误：${err}`)
+    message.error(`出现错误：${err}`)
+    return err.response
 })
 
 // 获取作者信息

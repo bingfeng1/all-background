@@ -30,6 +30,7 @@
   - 可以是地图，可以是图表
 - Extend:辅助功能
   - ExtendLink：扩展链接
+  - TimedTask：定时循环任务
   - 配置自身的首页功能
 - 系统功能：
   - ChangeLog：网站更新记录
@@ -75,3 +76,6 @@
 - /private/addExtendLink：添加分类信息
 - /private/updateExtendLink：修改分类信息
 - /private/deleteExtendLink：删除分类
+
+- /getTimedTask：获取定时任务
+- /private/changeTimedTask：是否启动定时任务

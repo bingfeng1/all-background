@@ -53,6 +53,17 @@ const routes = [
                 title: '定时任务',
                 icon: 'clock-circle',
                 component: TimedTask
+            },{
+                path:'/extend/build',
+                title:'大屏组件',
+                icon:'build',
+                children:[
+                    {
+                        path:'/extend/build/computer',
+                        title:'服务器属性',
+                        icon:'robot'
+                    }
+                ]
             }
         ]
     }
