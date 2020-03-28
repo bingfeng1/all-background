@@ -140,6 +140,11 @@ const reqGetComputerInfo = () => {
     return axios.get('/getComputerInfo')
 }
 
+// 获取实时疫情
+const reqGetNcovDetail = ()=>{
+    return axios.get('/getTXNcovInfo')
+}
+
 export {
     reqEditor,
     reqArticles,
@@ -158,5 +163,6 @@ export {
     reqGetTimedTask,
     reqUpdateTimedTask,
     reqGetNcov,
-    reqGetComputerInfo
+    reqGetComputerInfo,
+    reqGetNcovDetail
 }
