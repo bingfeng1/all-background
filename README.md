@@ -82,3 +82,4 @@
 
 - /getNcov：获取病毒信息
 - /getComputerInfo：获取电脑信息
+- /getTXNcovInfo：获取腾讯接口数据
