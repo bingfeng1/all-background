@@ -74,7 +74,7 @@ const Computer = () => {
 
     useEffect(() => {
         getComputerInfo()
-        let timer = setInterval(getComputerInfo, 1000 * 2)
+        let timer = setInterval(getComputerInfo, 1000 * 30)
         return () => {
             clearInterval(timer)
         }
