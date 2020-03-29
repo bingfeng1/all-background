@@ -106,8 +106,8 @@ const Computer = () => {
             return {
                 totalGb, usedGb, freeGb, usedPercentage, freePercentage,
                 source: [
-                    ['已使用空间', +usedGb],
-                    ['剩余空间', +freeGb]
+                    ['剩余空间', +freeGb],
+                    ['已使用空间', +usedGb]
                 ]
             }
         })
@@ -131,7 +131,7 @@ const Computer = () => {
             </div>
             <div>
                 <div className="num_title">
-                    <p>硬盘使用</p>
+                    <p>硬盘空闲</p>
                     <p>{hardDisk.freePercentage ?? 0}%</p>
                 </div>
                 <PieChart data={hardDisk.source} />
