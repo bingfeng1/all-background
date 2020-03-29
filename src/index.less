@@ -112,7 +112,7 @@
         padding: 20px;
         display: grid;
         grid-template-columns: 1fr 400px;
-        grid-template-rows: 8% 8% 10fr;
+        grid-template-rows: 8% 8% 1fr;
         // 格子间距
         grid-gap: 20px;
         // 文字
@@ -125,7 +125,13 @@
         }
 
         &>div {
-            outline: 1px solid white;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.041), rgba(16, 140, 255, 0.062));
+            border: 4px transparent solid;
+            border-image: linear-gradient(rgba(53, 81, 243, 0.479), rgba(162, 90, 255, 0.466)) 1 1;
+        }
+
+        .time,.toolbar{
+            .flex-center();
         }
 
         // 占两行
@@ -155,6 +161,35 @@
                     width: 50%;
                 }
             }
+        }
+    }
+
+    // 数据卡
+    .data_card {
+        background: none;
+        color: white;
+        margin: 20px;
+        font-size: 1.2rem;
+        border: 4px transparent solid;
+        border-image: linear-gradient(rgb(247, 1, 255), rgb(17, 0, 255)) 30 30;
+
+        hr {
+            margin: 0;
+        }
+
+        .title {
+            background: rgba(255, 185, 145, 0.199);
+            padding: 6px 0;
+        }
+
+        .data {
+            background: rgba(37, 207, 250, 0.205);
+            padding: 6px 0;
+            font-size: 1.5rem;
+        }
+
+        .tip {
+            padding: 8px 0;
         }
     }
 }

@@ -34,7 +34,7 @@ const importEchartsMap = new Map()
     .set('青海', 'qinghai')
     .set('湖南', 'hunan')
     .set('贵州', 'guizhou')
-    .set('新疆', 'xinjinag')
+    .set('新疆', 'xinjiang')
     .set('宁夏', 'ningxia')
     .set('西藏', 'xizang')
     .set('安徽', 'anhui')
@@ -59,23 +59,27 @@ const changeAreaNameForEchart = arr => {
                 case '上海':
                     if (v.name === '浦东') {
                         v.name = '浦东新区'
-                    } else {
+                    } else if (!v.name.endsWith('区')) {
                         v.name = v.name + '区'
                     }
                     break;
                 case '北京':
-                    v.name = v.name + '区'
+                    if (!v.name.endsWith('区')) {
+                        v.name = v.name + '区'
+                    }
                     break;
                 case '天津':
 
                     break;
                 case '海南':
-                    if(!v.name.endsWith('县')){
+                    if (!v.name.endsWith('县')) {
                         v.name = v.name + '市'
                     }
                     break;
                 default:
-                    v.name = v.name + '市'
+                    if (!v.name.endsWith('市')) {
+                        v.name = v.name + '市'
+                    }
                     break;
             }
         }
@@ -84,6 +88,7 @@ const changeAreaNameForEchart = arr => {
 }
 
 
+let oldData;
 /**
  * 
  * @param {dom} dom 节点
@@ -91,18 +96,36 @@ const changeAreaNameForEchart = arr => {
  */
 const ncovInfoMapChart = async (dom, {
     chartData,
-    time
+    time,
+    setDetail,   // 获取当前的详细情况
 }) => {
-    const { name: areaName, value: areaValue } = chartData
+    const { name: areaName, detail } = chartData
+    oldData = oldData ?? chartData
+    setDetail(detail)
     const myEchart = echarts.init(dom)
 
     const option = {
         title: {
             text: `${areaName}疫情`,
-            subtext: `数据时间：${time}\n当前总数：${areaValue}\n数据来源于腾讯新闻`,
+            subtext: `数据时间：${time}\n数据来源于腾讯新闻`,
             left: 'center',
             textStyle: {
                 color: "#fff"
+            }
+        },
+        toolbox: {
+            feature: {
+                myTool: {
+                    show: true,
+                    title: '还原',
+                    icon: 'path://M3.8,33.4 M47,18.9h9.8V8.7 M56.3,20.1 C52.1,9,40.5,0.6,26.8,2.1C12.6,3.7,1.6,16.2,2.1,30.6 M13,41.1H3.1v10.2 M3.7,39.9c4.2,11.1,15.8,19.5,29.5,18 c14.2-1.6,25.2-14.1,24.7-28.5',
+                    onclick() {
+                        ncovInfoMapChart(dom, { chartData: oldData, time, setDetail })
+                    },
+                    iconStyle: {
+                        borderColor: 'white'
+                    }
+                }
             }
         },
         tooltip: {
@@ -171,10 +194,10 @@ const ncovInfoMapChart = async (dom, {
     myEchart.setOption(option)
     myEchart.on('click', 'series', function ({ data = {} }) {
         if (data.children) {
-            myEchart.dispose()
             ncovInfoMapChart(dom, {
                 chartData: data,
-                time
+                time,
+                setDetail
             })
         }
     })

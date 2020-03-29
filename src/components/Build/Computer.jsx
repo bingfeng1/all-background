@@ -17,7 +17,7 @@ const GaugeChart = ({ data = 0 }) => {
                 chart.then(v => v.resize())
             }, 500)
         }
-    }, [isFull])
+    }, [isFull, chart])
 
     useEffect(() => {
         setChart(drawGauge(chart_ref.current, {
@@ -47,7 +47,7 @@ const PieChart = ({ data = [[0]] }) => {
                 chart.then(v => v.resize())
             }, 500)
         }
-    }, [isFull])
+    }, [isFull, chart])
 
     useEffect(() => {
         setChart(drawPie(chart_ref.current, {
@@ -74,7 +74,7 @@ const Computer = () => {
 
     useEffect(() => {
         getComputerInfo()
-        let timer = setInterval(getComputerInfo, 1000 * 10)
+        let timer = setInterval(getComputerInfo, 1000 * 2)
         return () => {
             clearInterval(timer)
         }
@@ -83,7 +83,7 @@ const Computer = () => {
     // 获取服务器信息
     const getComputerInfo = async () => {
         const { data = {} } = await reqGetComputerInfo()
-        const { _cpuUsage, _freemem, _totalmem, _uptime, _compouterDrive = {} } = data
+        const { _cpuUsage, _freemem, _totalmem, _compouterDrive = {} } = data
         const { totalGb = 0, usedGb = 0, freeGb = 0, usedPercentage = 0, freePercentage = 0 } = _compouterDrive
         setCpu(_cpuUsage)
         setMemory(() => {
