@@ -132,7 +132,7 @@ const Computer = () => {
             <div>
                 <div className="num_title">
                     <p>硬盘使用</p>
-                    <p>{hardDisk.freePercentage}%</p>
+                    <p>{hardDisk.freePercentage ?? 0}%</p>
                 </div>
                 <PieChart data={hardDisk.source} />
             </div>

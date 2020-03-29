@@ -61,7 +61,8 @@ const routes = [
                     {
                         path:'/extend/build/computer',
                         title:'服务器属性',
-                        icon:'robot'
+                        icon:'robot',
+
                     }
                 ]
             }

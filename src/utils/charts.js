@@ -43,7 +43,10 @@ const importEchartsMap = new Map()
 // 转换地图
 async function changeAreaMap(name) {
     if (importEchartsMap.has(name)) {
-        await import(`echarts/map/js/province/${importEchartsMap.get(name)}`)
+        if (importEchartsMap.get(name) !== name) {
+            await import(`echarts/map/js/province/${importEchartsMap.get(name)}`)
+            importEchartsMap.set(name, name)
+        }
         return name
     } else {
         return 'china'
@@ -103,6 +106,8 @@ const ncovInfoMapChart = async (dom, {
     oldData = oldData ?? chartData
     setDetail(detail)
     const myEchart = echarts.init(dom)
+    myEchart.clear()
+    myEchart.showLoading()
 
     const option = {
         title: {
@@ -120,7 +125,9 @@ const ncovInfoMapChart = async (dom, {
                     title: '还原',
                     icon: 'path://M3.8,33.4 M47,18.9h9.8V8.7 M56.3,20.1 C52.1,9,40.5,0.6,26.8,2.1C12.6,3.7,1.6,16.2,2.1,30.6 M13,41.1H3.1v10.2 M3.7,39.9c4.2,11.1,15.8,19.5,29.5,18 c14.2-1.6,25.2-14.1,24.7-28.5',
                     onclick() {
-                        ncovInfoMapChart(dom, { chartData: oldData, time, setDetail })
+                        option.series.map = 'china'
+                        option.series.data = changeAreaNameForEchart(oldData)
+                        myEchart.setOption(option)
                     },
                     iconStyle: {
                         borderColor: 'white'
@@ -192,13 +199,12 @@ const ncovInfoMapChart = async (dom, {
         }
     };
     myEchart.setOption(option)
-    myEchart.on('click', 'series', function ({ data = {} }) {
+    myEchart.hideLoading()
+    myEchart.on('click', 'series', async ({ data = {} }) => {
         if (data.children) {
-            ncovInfoMapChart(dom, {
-                chartData: data,
-                time,
-                setDetail
-            })
+            option.series.map = await changeAreaMap(data.name)
+            option.series.data = changeAreaNameForEchart(data)
+            myEchart.setOption(option)
         }
     })
     return myEchart
