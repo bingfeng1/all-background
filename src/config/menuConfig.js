@@ -4,6 +4,7 @@ import Articles from '../pages/Blog/Articles'
 import ArticleGroup from '../pages/Blog/ArticleGroup'
 import ExtendLink from '../pages/Extend/ExtendLink'
 import TimedTask from '../pages/Extend/TimedTask'
+import DragAPI from '../pages/Extend/LearnMore/DragAPI'
 
 const routes = [
     {
@@ -48,21 +49,33 @@ const routes = [
                 title: '扩展链接',
                 icon: 'link',
                 component: ExtendLink
-            },{
-                path:'/extend/timed-task',
+            }, {
+                path: '/extend/timed-task',
                 title: '定时任务',
                 icon: 'clock-circle',
                 component: TimedTask
-            },{
-                path:'/extend/build',
-                title:'大屏组件',
-                icon:'build',
-                children:[
+            }, {
+                path: '/extend/build',
+                title: '大屏组件',
+                icon: 'build',
+                children: [
                     {
-                        path:'/extend/build/computer',
-                        title:'服务器属性',
-                        icon:'robot',
+                        path: '/extend/build/computer',
+                        title: '服务器属性',
+                        icon: 'robot',
 
+                    }
+                ]
+            }, {
+                path: '/extend/more',
+                title: '更多学习',
+                icon: 'more',
+                children: [
+                    {
+                        path: '/extend/more/drag',
+                        title: '拖拽练习',
+                        icon: 'drag',
+                        component: DragAPI
                     }
                 ]
             }
