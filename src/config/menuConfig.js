@@ -5,6 +5,7 @@ import ArticleGroup from '../pages/Blog/ArticleGroup'
 import ExtendLink from '../pages/Extend/ExtendLink'
 import TimedTask from '../pages/Extend/TimedTask'
 import DragAPI from '../pages/Extend/LearnMore/DragAPI'
+import CssPage from '../pages/Extend/CssPage/CssPage'
 
 const routes = [
     {
@@ -82,14 +83,7 @@ const routes = [
                 path: '/extend/morecss',
                 title: '更多（css）',
                 icon: 'more',
-                children: [
-                    // {
-                    //     path: '/extend/morejs/drag',
-                    //     title: '拖拽练习',
-                    //     icon: 'drag',
-                    //     component: DragAPI
-                    // }
-                ]
+                component: CssPage
             }
         ]
     }
