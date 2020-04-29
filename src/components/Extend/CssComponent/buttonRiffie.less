@@ -1,0 +1,50 @@
+
+// 按钮涟漪效果！！！！！！！！！！！！！！！！！
+[data-buttonriffle]{
+    .flex-riffle{
+        flex-direction: column;
+    }
+    
+    
+    .riffle{
+        position: relative;
+        display: inline-block;
+        border: none;
+        border-radius: 40px;
+        padding: 12px 36px;
+        margin: 10px 0;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        letter-spacing: 2px;
+        background:linear-gradient(90deg,#0162c8,#55e7fc);
+        overflow: hidden;
+    
+        // 取消默认的选中框
+        &:focus{
+            outline: none;
+        }
+    
+        span{
+            position: absolute;
+            background: rgb(255, 255, 255);
+            transform: translate(-50%,-50%);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: animate2 1s linear infinite;
+        }
+    
+        @keyframes animate2{
+            0%{
+                width:0px;
+                height: 0px;
+                opacity: .5;
+            }
+            100%{
+                width: 500px;
+                height: 500px;
+                opacity: 0;
+            }
+        }
+    }
+}

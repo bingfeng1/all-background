@@ -2,6 +2,7 @@
  * 涟漪效果按钮
  */
 import React from 'react'
+import './buttonRiffie.less'
 
 // 尾调用获取坐标
 function getOffsetLeft(t, left = 0) {
@@ -40,7 +41,7 @@ const ButtonRiffle = ({ children = "按钮" }) => {
 
 
     return (
-        <div className="flex-center flex-riffle">
+        <div className="flex-center flex-riffle" data-buttonriffle>
             <button className="riffle" onClick={riffleAction}>
                 {children}
             </button>
