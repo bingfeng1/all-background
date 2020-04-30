@@ -4,7 +4,6 @@
  * 作者：heibaimeng
  */
 import React from 'react';
-import './drag.less';
 
 const DragDemo1 = props => {
     // 创建拖动的钩子，判断是狗正在拖动
