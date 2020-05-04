@@ -1,7 +1,14 @@
 import React, { useEffect, useRef } from 'react'
 
 // 点移动，自动画线
-const PointToLine = () => {
+const PointToLine = ({
+    // 点的数量
+    num = 50,
+    // 点移动速度
+    speed = 2,
+    // 查找点连接线
+    len = 100,
+}) => {
     const canvas = useRef(undefined)
     useEffect(() => {
         setTimeout(() => {
@@ -9,12 +16,6 @@ const PointToLine = () => {
             let ctx = c.getContext('2d')
             // 存放点位
             let points = []
-            // 点的数量
-            let num = 50
-            // 点移动速度
-            let speed = 2
-            // 查找点连接线
-            let len = 100
 
             // 获取父级宽高
             let { clientWidth: parentWidth, clientHeight: parentHeight } = c.parentElement
