@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Row, Col, List } from 'antd'
 import * as echarts from 'echarts'
 const { Item } = List
@@ -158,6 +158,12 @@ const DragEcharts = () => {
         e.dataTransfer.setData("charttype", e.target.dataset.item)
     }
 
+    useEffect(()=>{
+        return ()=>{
+            myEchart.dispose()
+            myEchart = null
+        }
+    })
 
     return (
         <div data-dragecharts>
