@@ -158,10 +158,12 @@ const DragEcharts = () => {
         e.dataTransfer.setData("charttype", e.target.dataset.item)
     }
 
-    useEffect(()=>{
-        return ()=>{
-            myEchart.dispose()
-            myEchart = null
+    useEffect(() => {
+        return () => {
+            if (myEchart) {
+                myEchart.dispose()
+                myEchart = null
+            }
         }
     })
 
