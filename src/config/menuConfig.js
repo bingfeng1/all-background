@@ -6,6 +6,7 @@ import ExtendLink from '../pages/Extend/ExtendLink'
 import TimedTask from '../pages/Extend/TimedTask'
 import DragAPI from '../pages/Extend/LearnMore/DragAPI'
 import CssPage from '../pages/Extend/CssPage/CssPage'
+import Canvas from '../pages/Extend/LearnMore/Canvas'
 
 const routes = [
     {
@@ -77,6 +78,11 @@ const routes = [
                         title: '拖拽练习',
                         icon: 'drag',
                         component: DragAPI
+                    },{
+                        path: '/extend/morejs/canvas',
+                        title: 'canvas',
+                        icon: 'highlight',
+                        component: Canvas
                     }
                 ]
             }, {
