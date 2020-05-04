@@ -18,7 +18,7 @@ const PointToLine = ({
             let points = []
 
             // 获取父级宽高
-            let { clientWidth: parentWidth, clientHeight: parentHeight } = c.parentElement
+            let { clientWidth: parentWidth, clientHeight: parentHeight } = c?.parentElement ?? document.documentElement
             c.width = parentWidth
             c.height = parentHeight
 
