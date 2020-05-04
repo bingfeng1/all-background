@@ -97,8 +97,8 @@ const Computer = () => {
                 usedmem,
                 memPercent,
                 source: [
-                    ['已使用内存', +usedmem],
-                    ['空闲内存', +freemem]
+                    ['空闲内存', +freemem],
+                    ['已使用内存', +usedmem]
                 ]
             }
         })
@@ -106,8 +106,8 @@ const Computer = () => {
             return {
                 totalGb, usedGb, freeGb, usedPercentage, freePercentage,
                 source: [
-                    ['剩余空间', +freeGb],
-                    ['已使用空间', +usedGb]
+                    ['已使用空间', +usedGb],
+                    ['剩余空间', +freeGb]
                 ]
             }
         })
@@ -131,8 +131,8 @@ const Computer = () => {
             </div>
             <div>
                 <div className="num_title">
-                    <p>硬盘空闲</p>
-                    <p>{hardDisk.freePercentage ?? 0}%</p>
+                    <p>硬盘使用</p>
+                    <p>{hardDisk.usedPercentage ?? 0}%</p>
                 </div>
                 <PieChart data={hardDisk.source} />
             </div>
