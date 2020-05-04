@@ -138,12 +138,14 @@ const DragEcharts = () => {
     // 拖放结束的操作
     const drop = (ev) => {
         ev.preventDefault();
-        // 通过getData获取关键id，直接进行echarts的方法操作即可
-        if (!myEchart) {
-            myEchart = echarts.init(ev.target)
+        if (ev.dataTransfer.types.includes("charttype")) {
+            // 通过getData获取关键id，直接进行echarts的方法操作即可
+            if (!myEchart) {
+                myEchart = echarts.init(ev.target)
+            }
+            myEchart.clear()
+            myEchart.setOption(lists.get(ev.dataTransfer.getData("charttype")))
         }
-        myEchart.clear()
-        myEchart.setOption(lists.get(ev.dataTransfer.getData("text/plain")))
     }
 
     // 必须设置，否则无法拖拽
@@ -153,7 +155,7 @@ const DragEcharts = () => {
 
     // 将拖拽的关键id存入
     const dragstart = (e) => {
-        e.dataTransfer.setData("text/plain", e.target.dataset.item)
+        e.dataTransfer.setData("charttype", e.target.dataset.item)
     }
 
 
