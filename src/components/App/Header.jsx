@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from "react-redux";
 import { getExtendLinkAction } from '../../store/actionCreator/extendLinkAction';
 import { Dropdown, Button, Menu, Icon } from 'antd';
@@ -8,9 +8,9 @@ const AppHeader = ({
     getExtendLink,
 }) => {
     // 获取链接信息
-    if (extendLink.length === 0) {
+    useEffect(() => {
         getExtendLink()
-    }
+    },[])
 
     const menu = () => {
         return (
