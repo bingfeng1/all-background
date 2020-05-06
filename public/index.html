@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,14 +22,138 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>后台系统</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
-      打开速度慢不是没有优化过，花生壳的网速比3G网络还慢，整体加载的大小为1MB左右。
-    </div>
-    <!--
+  <title>后台系统</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #root {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+    <canvas></canvas>
+    <script>
+      let c = document.querySelector('canvas')
+      let ctx = c.getContext('2d')
+      // 存放点位
+      let points = [],
+        num = 100,
+        // 点移动速度
+        speed = 2,
+        // 查找点连接线
+        len = 200;
+
+      // 获取父级宽高
+      let { clientWidth: parentWidth, clientHeight: parentHeight } = c?.parentElement ?? document.documentElement
+      c.width = parentWidth
+      c.height = parentHeight
+
+      // 增加随机点位
+      for (let i = 0; i < num; i++) {
+        let v = {
+          x: Math.random() * parentWidth,
+          y: Math.random() * parentHeight,
+          speedX: (Math.random() - .5) * speed,
+          speedY: (Math.random() - .5) * speed
+        }
+        points.push(v)
+
+        // 将点放入canvas中
+        ctx.beginPath()
+        ctx.arc(v.x, v.y, .5, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      // 点连线
+      function pointOfLine(points) {
+        for (let i = 0; i < points.length - 1; i++) {
+          // 利用类似冒泡排序的方式，但还需要进一步排重
+          for (let j = i + 1; j < points.length; j++) {
+            let length = Math.sqrt((points[i].x - points[j].x) ** 2 + (points[i].y - points[j].y) ** 2)
+            // 将小于这个标准的点，变为线
+            if (length < len) {
+              ctx.beginPath()
+              ctx.save()
+              ctx.globalAlpha = 1 - length / len
+              ctx.moveTo(points[i].x, points[i].y)
+              ctx.lineTo(points[j].x, points[j].y)
+              ctx.stroke()
+              ctx.restore()
+              ctx.closePath()
+            }
+          }
+        }
+      }
+
+      pointOfLine(points)
+
+      function animate() {
+        ctx.clearRect(0, 0, parentWidth, parentHeight)
+
+        // Canvas居中写字，参数（context对象，要写的字，字体，颜色，绘制的高度）
+        function canvas_text(_paint, _text, _fontSzie, _color) {
+          _paint.font = _fontSzie;
+          _paint.fillStyle = _color;
+          _paint.textAlign = "center";
+          _paint.textBaseline = "middle";
+          _paint.fillText(_text, c.width / 2, c.height / 2);
+        }
+
+        // 绘制中文字示例，参数（context对象，要写的字，字体，颜色，绘制的高度）
+        canvas_text(ctx, "花生壳的网速无力吐槽，只能慢慢等待。。。", "18px bold 黑体", "#000");
+
+
+        for (let v of points) {
+          if (v.x > parentWidth || v.x < 0) {
+            v.speedX = -v.speedX
+          }
+          if (v.y > parentHeight || v.y < 0) {
+            v.speedY = -v.speedY
+          }
+          v.x += v.speedX
+          v.y += v.speedY
+
+          ctx.beginPath()
+          ctx.arc(v.x, v.y, 1, 0, Math.PI * 2)
+          ctx.fill()
+        }
+        pointOfLine(points)
+        requestAnimationFrame(() => {
+          animate()
+        })
+      }
+
+      animate()
+
+      c.addEventListener('mouseenter', e => {
+        points.push({
+          x: e.x,
+          y: e.y,
+          speedX: 0,
+          speedY: 0
+        })
+      })
+
+      c.addEventListener('mouseleave', e => {
+        points.pop()
+      })
+
+      c.addEventListener('mousemove', e => {
+        points[points.length - 1].x = e.x
+        points[points.length - 1].y = e.y
+
+      })
+    </script>
+  </div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -41,5 +163,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

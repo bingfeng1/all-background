@@ -16,7 +16,7 @@ function App() {
   let location = document.location.hash.split('#')
   let subMenuArr = () => {
     // 将路由分段
-    let tempArr = location[1].split('/')
+    let tempArr = location[1]?.split('/') ?? []
     let result = []
     for (let i = 1; i < tempArr.length; i++) {
       // 数组第一个是空，所以从第二个开始遍历

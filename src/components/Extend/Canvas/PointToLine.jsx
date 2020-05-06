@@ -85,7 +85,7 @@ const PointToLine = ({
 
             animate()
         })
-    }, [])
+    }, [len, num, speed])
 
     return (
         <canvas ref={canvas}></canvas>
