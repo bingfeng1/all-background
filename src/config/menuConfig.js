@@ -7,6 +7,7 @@ import TimedTask from '../pages/Extend/TimedTask'
 import DragAPI from '../pages/Extend/LearnMore/DragAPI'
 import CssPage from '../pages/Extend/CssPage/CssPage'
 import Canvas from '../pages/Extend/LearnMore/Canvas'
+import W3capi from '../pages/Extend/LearnMore/W3capi'
 
 const routes = [
     {
@@ -56,19 +57,20 @@ const routes = [
                 title: '定时任务',
                 icon: 'clock-circle',
                 component: TimedTask
-            }, {
-                path: '/extend/build',
-                title: '大屏组件',
-                icon: 'build',
-                children: [
-                    {
-                        path: '/extend/build/computer',
-                        title: '服务器属性',
-                        icon: 'robot',
-
-                    }
-                ]
-            }, {
+            },
+            // {
+            //     path: '/extend/build',
+            //     title: '整体属性',
+            //     icon: 'build',
+            //     children: [
+            //         {
+            //             path: '/extend/build/computer',
+            //             title: '服务器属性',
+            //             icon: 'robot',
+            //         }
+            //     ]
+            // }, 
+            {
                 path: '/extend/morejs',
                 title: '更多（js）',
                 icon: 'more',
@@ -78,11 +80,16 @@ const routes = [
                         title: '拖拽练习',
                         icon: 'drag',
                         component: DragAPI
-                    },{
+                    }, {
                         path: '/extend/morejs/canvas',
                         title: 'canvas',
                         icon: 'highlight',
                         component: Canvas
+                    }, {
+                        path: '/extend/morejs/w3capi',
+                        title: 'w3c杂项',
+                        icon: 'api',
+                        component: W3capi
                     }
                 ]
             }, {

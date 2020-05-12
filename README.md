@@ -31,7 +31,9 @@
 - Extend:辅助功能
   - ExtendLink：扩展链接
   - TimedTask：定时循环任务
-  - 配置自身的首页功能
+  - Extend：包含学习的内容例子（可以和文章进行跳转）
+    - css
+    - js
 - 系统功能：
   - ChangeLog：网站更新记录
   - BugLog：错误记录
