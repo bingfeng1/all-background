@@ -28,30 +28,30 @@ axios.interceptors.response.use(response => {
 
 // 获取作者信息
 const reqEditor = () => {
-    return axios.get('/getEditor')
+    return axios.get('/editor')
 }
 
 // 修改个人信息
 const reqUpdateEditor = (data) => {
-    return axios.put('/private/updateEditor', data, {
+    return axios.put('/editor', data, {
         headers: { "Content-Type": "multipart/form-data" }
     })
 }
 
 // 获取分类信息
 const reqArticleGroup = () => {
-    return axios.get('/getArticleGroup')
+    return axios.get('/articleGroup')
 }
 
 // 添加或修改分类信息
 const reqAddOrUpdateArticleGroup = data => {
-    const path = !!data._id ? 'updateArticleGroup' : 'addArticleGroup'
-    return axios.post(`/private/${path}`, data)
+    const method = !!data._id ? 'put' : 'post'
+    return axios[method](`/articleGroup`, data)
 }
 
 // 删除分类
 const reqDeleteArticleGroup = data => {
-    return axios.delete('/private/deleteArticleGroup', {
+    return axios.delete('/articleGroup', {
         data: {
             _id: data
         }
@@ -60,19 +60,19 @@ const reqDeleteArticleGroup = data => {
 
 // 获取文章
 const reqArticles = () => {
-    return axios.get('/getArticles')
+    return axios.get('/articles')
 }
 
 // 添加文章
 const reqAddArticle = (data) => {
-    return axios.post('/private/addArticle', data, {
+    return axios.post('/articles', data, {
         headers: { "Content-Type": "multipart/form-data" }
     })
 }
 
 // 删除文章
 const reqDeleteArticle = (_id) => {
-    return axios.delete('/private/deleteArticle', {
+    return axios.delete('/articles', {
         data: {
             _id
         }
@@ -81,7 +81,7 @@ const reqDeleteArticle = (_id) => {
 
 // 获取文章详情
 const reqArticleDetail = (_id) => {
-    return axios.get('/getArticleDetail', {
+    return axios.get('/articleDetail', {
         params: {
             _id
         }
@@ -90,7 +90,7 @@ const reqArticleDetail = (_id) => {
 
 // 更新文章信息
 const reqUpdateArticle = (data) => {
-    return axios.put('/private/updateArticle', data, {
+    return axios.put('/articleDetail', data, {
         headers: { "Content-Type": "multipart/form-data" }
     })
 }
@@ -98,22 +98,22 @@ const reqUpdateArticle = (data) => {
 
 // 获取分类信息
 const reqExtendLink = () => {
-    return axios.get('/getExtendLink')
+    return axios.get('/extendLink')
 }
 
 // 添加分类信息
 const reqAddExtendLink = data => {
-    return axios.post(`/private/addExtendLink`, data)
+    return axios.post(`/extendLink`, data)
 }
 
 // 修改分类信息
 const reqUpdateExtendLink = data => {
-    return axios.put(`/private/updateExtendLink`, data)
+    return axios.put(`/extendLink`, data)
 }
 
 // 删除分类
 const reqDeleteExtendLink = data => {
-    return axios.delete('/private/deleteExtendLink', {
+    return axios.delete('/extendLink', {
         data: {
             _id: data
         }
@@ -122,27 +122,27 @@ const reqDeleteExtendLink = data => {
 
 // 获取定时任务
 const reqGetTimedTask = () => {
-    return axios.get('/getTimedTask')
+    return axios.get('/timedTask')
 }
 
 // 修改定时任务
 const reqUpdateTimedTask = (data) => {
-    return axios.put('/private/changeTimedTask', data)
+    return axios.put('/timedTask', data)
 }
 
 // 获取病毒信息
 const reqGetNcov = () => {
-    return axios.get('/getNcov')
+    return axios.get('/ncov')
 }
 
 // 获取服务器信息
 const reqGetComputerInfo = () => {
-    return axios.get('/getComputerInfo')
+    return axios.get('/computerInfo')
 }
 
 // 获取实时疫情
-const reqGetNcovDetail = ()=>{
-    return axios.get('/getTXNcovInfo')
+const reqGetNcovDetail = () => {
+    return axios.get('/TXNcovInfo')
 }
 
 export {

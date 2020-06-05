@@ -8,7 +8,7 @@ const W3capi = ()=>{
             <Row
                 gutter={[10]}>
                 <Col xl={12} xs={24} sm={24} md={24}>
-                    <Card title="">
+                    <Card title="前端性能指示">
                         <PerformanceDetail></PerformanceDetail>
                     </Card>
                 </Col>
